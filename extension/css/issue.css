@@ -1,0 +1,21 @@
+.gdbd-popup-issue {
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+.gdbd-issue-container {
+	padding: 0 28px 0 28px;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+	background: #FAFAFA;
+	
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	z-index: 6;
+}
+
+.gdbd-issue-frame {
+	padding-top: 20px;
+	cursor: pointer;
+}
