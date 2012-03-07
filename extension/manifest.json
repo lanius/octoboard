@@ -1,6 +1,6 @@
 ﻿{
   "name": "Octoboard",
-  "version": "0.1.0",
+  "version": "0.0.1",
   
   "description": "Enables to show a diff on the GitHub dashboard.",
   "icons": {
@@ -10,7 +10,7 @@
   },
   
   "browser_action": {
-    "default_icon": "img/icon16.png"
+    "default_icon": "img/icon48.png"
   },
   
   "content_scripts": [
