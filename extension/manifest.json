@@ -1,6 +1,6 @@
 ﻿{
   "name": "Octoboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   
   "description": "Octoboard makes it possible to you to open a diff view on the GitHub dashboard.",
   "icons": {
