@@ -261,7 +261,7 @@
       var pagingPath = getPagingLink().attr('href');
       var lastPage = false;
       var nextPagingLink = -1;
-      if (pagingPath === undefined) {
+      if (!pagingPath) {
         lastPage = true; // not found paging link (at last page)
       }
       else {
@@ -307,7 +307,7 @@
   getPagingLink().on('click', update);
   
   // exports some functions
-  if (exports.gdbd === undefined) {
+  if (!exports.gdbd) {
     exports.gdbd = {};
   }
   exports.gdbd.issue = {};

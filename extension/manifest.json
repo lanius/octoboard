@@ -19,12 +19,14 @@
       "js": 
       [
         "js/lib/jquery.js", 
+        "js/lib/keyboard.js", 
         "js/config.js", 
         "js/diff.js", 
         "js/issue.js",
-        "js/autopaging.js"
+        "js/autopaging.js",
+        "js/shortcut.js"
       ],
-      "css": ["css/diff.css", "css/issue.css"]
+      "css": ["css/diff.css", "css/issue.css", "css/shortcut.css"]
     }
   ],
   "options_page": "html/options.html",

@@ -144,7 +144,7 @@
   getPagingLink().on('click', update);
   
   // exports some functions
-  if (exports.gdbd === undefined) {
+  if (!exports.gdbd) {
     exports.gdbd = {};
   }
   exports.gdbd.diff = {};
