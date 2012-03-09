@@ -61,7 +61,7 @@
       
       if (currentAlertType === 'push') {
         currentCursor = currentCursor.next();
-        if (currentCursor.hasClass('more')) {
+        if (currentCursor.hasClass('more') || currentCursor.length === 0) {
           currentAlertType = null;
           currentCursor = null;
           searchNextAlert(function () {
@@ -126,5 +126,8 @@
       // todo: bind key 't' to toggle
     });
   });
+  
+  // todo: consider end of news
+  // todo: back by key 'k'
   
 }(this));
