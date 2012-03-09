@@ -7,20 +7,20 @@
   
   var hidePolicy = 'frame';
   
-  var setShowDiff = function (pushes) {
+  var setToPushes = function (pushes) {
     pushes.each(function (idx, push) {
-      setShowDiffToPush($(push));
+      setToPush($(push));
     });
   };
   
-  var setShowDiffToPush = function (push) {
+  var setToPush = function (push) {
     var commits = push.find(".commits ul");
     commits.children().each(function (idx, commit) {
-      setShowDiffToCommit($(commit));
+      setToCommit($(commit));
     });
   };
   
-  var setShowDiffToCommit = function (commit) {
+  var setToCommit = function (commit) {
     var link = $('<a>');
     link.html(SHOW_LABEL);
     link.addClass(LABEL_CLASS);
@@ -29,12 +29,12 @@
       return; // the case of "n more commits"
     }
     link.on('click', function () {
-      toggleDiff(commit);
+      toggle(commit);
     });
     commit.append(link);
   };
   
-  var toggleDiff = function (commit) {
+  var toggle = function (commit) {
     var container = commit.find('.' + DIFF_CONTAINER_CLASS);
     var link = commit.find('.' + LABEL_CLASS);
     var url = commit.find('code a').attr('href');
@@ -97,7 +97,7 @@
     });
   };
 
-  var updateShowDiff = function (onUpdated) {
+  var update = function (onUpdated) {
     setTimeout(function () {
       var pagingPath = getPagingLink().attr('href');
       var lastPage = false;
@@ -114,18 +114,18 @@
         var latestPushes = getAllPushes();
         var newPushes = diff(latestPushes, currentPushes);
         
-        setShowDiff(newPushes);
+        setToPushes(newPushes);
         currentPushes = latestPushes;
         
         currentPagingLink = nextPagingLink;
-        getPagingLink().on('click', updateShowDiff);
+        getPagingLink().on('click', update);
         
         if (onUpdated) {
           onUpdated();
         }
       }
       else {
-        updateShowDiff();
+        update();
       }
     }, 1000);
   };
@@ -135,18 +135,19 @@
   if (currentPushes.length === 0) {
     return;
   }
-  setShowDiff(currentPushes);
+  setToPushes(currentPushes);
   
   // set event listener for paging
   var currentPagingLink = 2;
-  getPagingLink().on('click', updateShowDiff);
+  getPagingLink().on('click', update);
   
   // exports some functions
   if (exports.gdbd === undefined) {
     exports.gdbd = {};
   }
   exports.gdbd.diff = {};
-  exports.gdbd.diff.update = updateShowDiff;
+  exports.gdbd.diff.update = update;
+  exports.gdbd.diff.toggle = toggle;
   
   if (exports.gdbd.config) {
     exports.gdbd.config.getOption('hidePolicy', function (option) {
