@@ -3,7 +3,7 @@
   var SHOW_LABEL = 'show diff';
   var HIDE_LABEL = 'hide diff';
   var LABEL_CLASS = 'gdbd-popup-diff';
-  var DIFF_CONTAINER_CLASS = 'gdbd-diff-container'
+  var CONTAINER_CLASS = 'gdbd-diff-container'
   
   var hidePolicy = 'frame';
   
@@ -14,7 +14,7 @@
   };
   
   var setToPush = function (push) {
-    var commits = push.find(".commits ul");
+    var commits = push.find('.commits ul');
     commits.children().each(function (idx, commit) {
       setToCommit($(commit));
     });
@@ -22,11 +22,9 @@
   
   var setToCommit = function (commit) {
     var link = $('<a>');
-    link.html(SHOW_LABEL);
-    link.addClass(LABEL_CLASS);
-    var url = commit.find('code a').attr('href');
-    if (!url) {
-      return; // the case of "n more commits"
+    link.html(SHOW_LABEL).addClass(LABEL_CLASS);
+    if (!getUrl(commit)) { // the case of "n more commits"
+      return;
     }
     link.on('click', function () {
       toggle(commit);
@@ -35,9 +33,9 @@
   };
   
   var toggle = function (commit) {
-    var container = commit.find('.' + DIFF_CONTAINER_CLASS);
+    var container = commit.find('.' + CONTAINER_CLASS);
     var link = commit.find('.' + LABEL_CLASS);
-    var url = commit.find('code a').attr('href');
+    var url = getUrl(commit);
     if (container.length !== 0) {
       if (link.html() === HIDE_LABEL) {
         container.hide();
@@ -60,7 +58,7 @@
       frame.addClass('gdbd-diff-frame');
       
       var container = $('<div>');
-      container.addClass(DIFF_CONTAINER_CLASS);
+      container.addClass(CONTAINER_CLASS);
       container.append(diff);
       
       if (hidePolicy === 'frame') {
@@ -81,6 +79,10 @@
     });
     
     link.html(HIDE_LABEL);
+  };
+  
+  var getUrl = function (commit) {
+    return commit.find('code a').attr('href');
   };
   
   var getAllPushes = function () {
