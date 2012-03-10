@@ -63,6 +63,7 @@
       else {
         show(container);
       }
+      onToggled(commit);
       return;
     }
     
@@ -99,6 +100,7 @@
     });
     
     show(container);
+    onToggled(commit);
   };
   
   var getUrl = function (commit) {
@@ -163,7 +165,7 @@
   var currentPagingLink = 2;
   getPagingLink().on('click', update);
   
-  // exports some functions
+  // export
   if (!exports.gdbd) {
     exports.gdbd = {};
   }
@@ -171,10 +173,14 @@
   exports.gdbd.diff.update = update;
   exports.gdbd.diff.toggle = toggle;
   
+  // import
   if (exports.gdbd.config) {
     exports.gdbd.config.getOption('hidePolicy', function (option) {
       hidePolicy = option;
     });
   }
+  var onToggled = function (commit) {
+    exports.gdbd.diff.onToggled(commit);
+  };
   
 }(this, jQuery));

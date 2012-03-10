@@ -104,7 +104,6 @@
       if (!element) {
         element = this.element;
       }
-      
       if (element.hasClass('push')) {
         return 'push';
       }
@@ -126,7 +125,7 @@
       }
       
       if (this.type() === 'push') {
-        var content = this.element.find('.commits ul').children();
+        var content = this.element.find('.commits >ul').children();
         var more = false;
         content.each(function (idx, commit) {
           if ($(commit).hasClass('more')) {
@@ -155,6 +154,11 @@
   Cursor.prototype = {
     _currentAlert: null,
     _currentContentIndex: -1,
+    
+    init: function (element, index) { // use to reset with random element
+      this._currentContentIndex = index;
+      this._currentAlert = new Alert(element);
+    },
     
     next: function (callback) {
       if (!this._currentAlert) { // first time
@@ -250,20 +254,20 @@
       diff.toggle(element);
     }
     else if (type === 'issue') {
-      // get issue alert container
-      issue.toggle(element.parent().parent().parent().parent().parent());
+      issue.toggle(element);
     }
   };
   
   var registerToggleShortcut = function (element) {
     if (keyToggle.bind) {
-      if (keyToggle.element.find('.' + SHOW_CLASS).length !== 0) {
-        toggle(keyToggle.element, keyToggle.type); // hide previous view
-      }
+      // buggy! disabled.
+      //if (keyToggle.element.find('.' + SHOW_CLASS).length !== 0) {
+      //  toggle(keyToggle.element, keyToggle.type); // hide previous view
+      //}
       keyToggle.bind.clear();
     }
-    keyToggle.element = element;
-    keyToggle.type = cursor.type;
+    //keyToggle.element = element;
+    //keyToggle.type = cursor.type;
     keyToggle.bind = KeyboardJS.bind.key('t', function () {
       toggle(element, cursor.type);
     });
@@ -305,6 +309,44 @@
     });
   });
   
+  diff.onToggled = function (element) {
+    if (cursor.current) {
+      if (element.hasClass(CURSOR_CLASS)) {
+        return; // already cursored
+      }
+      cursor.current.removeClass(CURSOR_CLASS);
+    }
+    var push = element.parent().parent().parent().parent().parent();
+    var index = element.parent().children().index(element);
+    cursor.init(push, index);
+    cursor.current.addClass(CURSOR_CLASS);
+    registerToggleShortcut(element);
+  };
+  
+  issue.onToggled = function (element) {
+    var content = element.find('.message p');
+    if (content.length !== 1) {
+      content = element.find('.message blockquote');
+    }
+    if (content.length !== 1) {
+      content = element;
+      element = content.parent().parent().parent().parent().parent();
+    }
+    
+    if (cursor.current) {
+      if (content.find('p').first().hasClass(CURSOR_CLASS)) {
+        return; // already cursored
+      }
+      cursor.current.removeClass(CURSOR_CLASS);
+    }
+    cursor.init(element, 0);
+    cursor.current.addClass(CURSOR_CLASS);
+    registerToggleShortcut(element);
+  };
+  
   // todo: long desc show diff
+  // todo: need to fix some bug! trouble exists about content, maybe
+  // todo: need to fix some bug! large trouble about issue
+  // todo: optionize
   
 }(this));

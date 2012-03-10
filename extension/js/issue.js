@@ -57,6 +57,7 @@
       else {
         show(container);
       }
+      onToggled(issue);
       return;
     }
     
@@ -243,6 +244,7 @@
     });
     
     show(container);
+    onToggled(issue);
   };
   
   var getUrl = function (issue) {
@@ -258,11 +260,11 @@
   };
   
   var getAllIssueOpened = function () {
-    return $(".alert.issues_opened").children();
+    return $(".alert.issues_opened");
   };
   
   var getAllIssueComment = function () {
-    return $(".alert.issues_comment").children();
+    return $(".alert.issues_comment");
   };
 
   var getPagingLink = function () {
@@ -325,7 +327,7 @@
   var currentPagingLink = 2;
   getPagingLink().on('click', update);
   
-  // exports some functions
+  // export
   if (!exports.gdbd) {
     exports.gdbd = {};
   }
@@ -333,10 +335,14 @@
   exports.gdbd.issue.update = update;
   exports.gdbd.issue.toggle = toggle;
   
+  // import
   if (exports.gdbd.config) {
     exports.gdbd.config.getOption('hidePolicy', function (option) {
       hidePolicy = option;
     });
   }
+  var onToggled = function (issue) {
+    exports.gdbd.issue.onToggled(issue);
+  };
   
 }(this, jQuery));
