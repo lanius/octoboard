@@ -5,129 +5,267 @@
   
   var LABEL_CLASS = 'gdbd-cursor';
   
-  var currentAlert = null;
-  var currentAlertType = null;
-  var currentCursor = null;
   
-  var searchNextAlert = function (callback) {
-    if (!currentAlert) {
-      currentAlert = $('.news').children().first();
-    }
-    else {
-      currentAlert = currentAlert.next();
-    }
-    
-    if (isPush(currentAlert)) {
-      currentAlertType = 'push';
-      callback();
-      return;
-    }
-    else if (isIssue(currentAlert)) {
-      currentAlertType = 'issue';
-      callback();
-      return;
-    }
-    else {
-      setTimeout(function () {
-        searchNextAlert(callback);
-      }, 0);
-      return;
-    }
+  var Alert = function (element) {
+    this.element = element;
   };
   
-  var searchNextCursor = function (callback) {
-    if (!currentAlert) {
-      searchNextAlert(function () {
-        setTimeout(function () {
-          searchNextCursor(callback);
-        }, 0);
-      });
-      return;
-    }
+  Alert.prototype = {
+    _next: null,
+    _nextElement: null,
+    _prev: null,
+    _prevElement: null,
+    _content: null,
     
-    if (!currentCursor) { // first time
-      if (currentAlertType === 'push') {
-        currentCursor = searchCommit();
+    next: function (callback) {
+      if (this._next) {
+        callback(this._next)
+        return;
       }
-      else if (currentAlertType === 'issue') {
-        currentCursor = searchIssue();
-      }
-      currentCursor.addClass(LABEL_CLASS);
-      callback();
-      return;
-    }
-    else {
-      currentCursor.removeClass(LABEL_CLASS);
       
-      if (currentAlertType === 'push') {
-        currentCursor = currentCursor.next();
-        if (currentCursor.hasClass('more') || currentCursor.length === 0) {
-          currentAlertType = null;
-          currentCursor = null;
-          searchNextAlert(function () {
-            setTimeout(function () {
-              searchNextCursor(callback);
-            }, 0);
+      if (!this._nextElement) {
+        this._nextElement = this.element.next();
+      }
+      else {
+        this._nextElement = this._nextElement.next();
+      }
+      
+      if (this._nextElement.length === 0) {
+        this._nextElement = null;
+        callback(null); // no more alert
+        return;
+      }
+      
+      var type = this.type(this._nextElement);
+      if (type === 'push') {
+        this._next = new Alert(this._nextElement);
+        this._next._prev = this;
+        callback(this._next)
+        return;
+      }
+      else if (type === 'issue') {
+        this._next = new Alert(this._nextElement);
+        this._next._prev = this;
+        callback(this._next)
+        return;
+      }
+      else {
+        var _this = this;
+        setTimeout(function () {
+            _this.next(callback);
+        }, 0);
+        return;
+      }
+    },
+    
+    prev: function (callback) {
+      if (this._prev) {
+        callback(this._prev)
+        return;
+      }
+      
+      if (!this._prevElement) {
+        this._prevElement = this.element.prev();
+      }
+      else {
+        this._prevElement = this._prevElement.prev();
+      }
+      
+      if (this._prevElement.length === 0) {
+        this._prevElement = null;
+        callback(null); // no more alert
+        return;
+      }
+      
+      var type = this.type(this._prevElement);
+      if (type === 'push') {
+        this._prev = new Alert(this._prevElement);
+        this._prev._next = this;
+        callback(this._prev)
+        return;
+      }
+      else if (type === 'issue') {
+        this._prev = new Alert(this._prevElement);
+        this._prev._next = this;
+        callback(this._prev)
+        return;
+      }
+      else {
+        var _this = this;
+        setTimeout(function () {
+            _this.prev(callback);
+        }, 0);
+        return;
+      }
+    },
+    
+    type: function(element) {
+      if (!element) {
+        element = this.element;
+      }
+      
+      if (element.hasClass('push')) {
+        return 'push';
+      }
+      else if (element.hasClass('issues_opened')) {
+        return 'issue';
+      }
+      else if (element.hasClass('issues_comment')) {
+        var url = $(element.find('.title a').get(1)).attr('href');
+        if (url.lastIndexOf('http') === 0 ) { // the case of not relative path
+          return 'issue';
+        }
+      }
+      return 'other'; // default
+    },
+    
+    get content() {
+      if (this._content) {
+        return this._content;
+      }
+      
+      if (this.type() === 'push') {
+        var content = this.element.find('.commits ul').children();
+        var more = false;
+        content.each(function (idx, commit) {
+          if ($(commit).hasClass('more')) {
+            more = true;
+          }
+        });
+        if (more) {
+          content = content.splice(0, content.length-1); // remove 'more'
+        }
+        this._content = content;
+      }
+      else if (this.type() === 'issue') {
+        var content = this.element.find('.message p');
+        if (content.length !== 1) {
+          content = this.element.find('.message blockquote');
+        }
+        this._content = content;
+      }
+      return this._content;
+    }
+  };
+
+  var Cursor = function () {
+  };
+  
+  Cursor.prototype = {
+    _currentAlert: null,
+    _currentContentIndex: -1,
+    
+    next: function (callback) {
+      if (!this._currentAlert) { // first time
+        this._currentAlert = new Alert($('.news').children().first());
+        if (this._currentAlert.type() === 'other') {
+          var _this = this;
+          this._currentAlert.next(function (nextAlert) {
+            if(!nextAlert) {
+              callback(null); // end of alert
+              return;
+            }
+            _this._currentAlert = nextAlert;
+            _this.next(callback);
           });
           return;
         }
-        else {
-          currentCursor.addClass(LABEL_CLASS);
-          callback();
-          return;
-        }
       }
-      else if (currentAlertType === 'issue') {
-        currentAlertType = null;
-        currentCursor = null;
-        searchNextAlert(function () {
-          setTimeout(function () {
-            searchNextCursor(callback);
-          }, 0);
+      
+      // check content
+      var element = this._currentAlert.content[this._currentContentIndex + 1];
+      if (element) {
+        this._currentContentIndex++;
+        callback($(element));
+        return;
+      }
+      else { // element is undefined (out of index)
+        var _this = this;
+        this._currentAlert.next(function (nextAlert) {
+          if(!nextAlert) {
+            callback(null); // end of alert
+            return;
+          }
+          _this._currentContentIndex = -1;
+          _this._currentAlert = nextAlert;
+          _this.next(callback);
         });
         return;
       }
-    }
-  };
-  
-  var searchCommit = function () {
-    return currentAlert.find('.commits ul').children().first();
-  };
-  
-  var searchIssue = function () {
-    var issue = currentAlert.find('.message p');
-    if (issue.length !== 1) {
-      issue = currentAlert.find('.message blockquote');
-    }
-    return issue;
-  };
-  
-  var isPush = function (alertObj) {
-    return alertObj.hasClass('push');
-  };
-  
-  var isIssue = function (alertObj) {
-    if (alertObj.hasClass('issues_opened')) {
-      return true;
-    }
-    else if (alertObj.hasClass('issues_comment')) {
-      var url = $(alertObj.find('.title a').get(1)).attr('href');
-      if (url.lastIndexOf('http') !== 0 ) { // the case of relative path
-        return false;
+    },
+    
+    prev: function (callback) {
+      if (!this._currentAlert) { // first time
+        callback(null);
+        return;
       }
-      return true;
-    }
-    return false;
+      
+      // check content
+      var element = this._currentAlert.content[this._currentContentIndex - 1];
+      if (element) {
+        this._currentContentIndex--;
+        callback($(element));
+        return;
+      }
+      else { // element is undefined (out of index)
+        var _this = this;
+        this._currentAlert.prev(function (prevAlert) {
+          if(!prevAlert) {
+            callback(null); // end of alert
+            return;
+          }
+          _this._currentAlert = prevAlert;
+          _this._currentContentIndex = _this._currentAlert.content.length;
+          _this.prev(callback);
+        });
+        return;
+      }
+    },
+    
+    get current() {
+      if (this._currentAlert) {
+        return $(this._currentAlert.content[this._currentContentIndex]);
+      }
+      return null;
+    },
   };
   
+  var cursor = new Cursor();
+  
+  // next
   KeyboardJS.bind.key('j', function () {
-    searchNextCursor(function () {
-      window.scroll(0, currentAlert.offset().top);
+    if (cursor.current) {
+      cursor.current.removeClass(LABEL_CLASS);
+    }
+    cursor.next(function (element) {
+      if (!element) {
+        cursor.current.addClass(LABEL_CLASS); // end of cursor
+        return;
+      }
+      element.addClass(LABEL_CLASS);
+      window.scroll(0, element.offset().top - 50);
       // todo: bind key 't' to toggle
     });
   });
   
-  // todo: consider end of news
-  // todo: back by key 'k'
+  // prev
+  KeyboardJS.bind.key('k', function () {
+    if (cursor.current) {
+      cursor.current.removeClass(LABEL_CLASS);
+    }
+    cursor.prev(function (element) {
+      if (!element) {
+        if (cursor.current) {
+          cursor.current.addClass(LABEL_CLASS); // end of cursor
+        }
+        return;
+      }
+      element.addClass(LABEL_CLASS);
+      window.scroll(0, element.offset().top - 50);
+      // todo: bind key 't' to toggle
+    });
+  });
+  
+  // todo: long desc show diff
   
 }(this));
