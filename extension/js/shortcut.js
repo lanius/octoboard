@@ -3,8 +3,9 @@
   var diff = exports.gdbd.diff;
   var issue = exports.gdbd.issue;
   
-  var LABEL_CLASS = 'gdbd-cursor';
-  
+  var CURSOR_CLASS = 'gdbd-cursor';
+  var SHOW_CLASS = 'gdbd-show';
+  var HIDE_CLASS = 'gdbd-hide';
   
   var Alert = function (element) {
     this.element = element;
@@ -228,44 +229,83 @@
       }
       return null;
     },
+    
+    get type() {
+      if (this._currentAlert) {
+        return this._currentAlert.type();
+      }
+      return null;
+    }
   };
   
   var cursor = new Cursor();
+  var keyToggle = {
+    bind: null,
+    element: null,
+    type: null,
+  };
+  
+  var toggle = function (element, type) {
+    if (type === 'push') {
+      diff.toggle(element);
+    }
+    else if (type === 'issue') {
+      // get issue alert container
+      issue.toggle(element.parent().parent().parent().parent().parent());
+    }
+  };
+  
+  var registerToggleShortcut = function (element) {
+    if (keyToggle.bind) {
+      if (keyToggle.element.find('.' + SHOW_CLASS).length !== 0) {
+        toggle(keyToggle.element, keyToggle.type); // hide previous view
+      }
+      keyToggle.bind.clear();
+    }
+    keyToggle.element = element;
+    keyToggle.type = cursor.type;
+    keyToggle.bind = KeyboardJS.bind.key('t', function () {
+      toggle(element, cursor.type);
+    });
+  };
   
   // next
   KeyboardJS.bind.key('j', function () {
     if (cursor.current) {
-      cursor.current.removeClass(LABEL_CLASS);
+      cursor.current.removeClass(CURSOR_CLASS);
     }
     cursor.next(function (element) {
       if (!element) {
-        cursor.current.addClass(LABEL_CLASS); // end of cursor
+        cursor.current.addClass(CURSOR_CLASS); // end of cursor
         return;
       }
-      element.addClass(LABEL_CLASS);
+      element.addClass(CURSOR_CLASS);
       window.scroll(0, element.offset().top - 50);
-      // todo: bind key 't' to toggle
+      
+      registerToggleShortcut(element);
     });
   });
   
   // prev
   KeyboardJS.bind.key('k', function () {
     if (cursor.current) {
-      cursor.current.removeClass(LABEL_CLASS);
+      cursor.current.removeClass(CURSOR_CLASS);
     }
     cursor.prev(function (element) {
       if (!element) {
         if (cursor.current) {
-          cursor.current.addClass(LABEL_CLASS); // end of cursor
+          cursor.current.addClass(CURSOR_CLASS); // end of cursor
         }
         return;
       }
-      element.addClass(LABEL_CLASS);
+      element.addClass(CURSOR_CLASS);
       window.scroll(0, element.offset().top - 50);
-      // todo: bind key 't' to toggle
+      
+      registerToggleShortcut(element);
     });
   });
   
   // todo: long desc show diff
+  // todo: avoid probrem on key toggle shortcut repeatedly
   
 }(this));

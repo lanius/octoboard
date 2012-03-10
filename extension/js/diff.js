@@ -2,6 +2,8 @@
   
   var SHOW_LABEL = 'show diff';
   var HIDE_LABEL = 'hide diff';
+  var SHOW_CLASS = 'gdbd-show';
+  var HIDE_CLASS = 'gdbd-hide';
   var LABEL_CLASS = 'gdbd-popup-diff';
   var CONTAINER_CLASS = 'gdbd-diff-container'
   
@@ -36,14 +38,30 @@
     var container = commit.find('.' + CONTAINER_CLASS);
     var link = commit.find('.' + LABEL_CLASS);
     var url = getUrl(commit);
+    
+    var show = function (container) {
+      if (container.length !== 0) {
+        container.show();
+      }
+      link.html(HIDE_LABEL);
+      link.removeClass(HIDE_CLASS);
+      link.addClass(SHOW_CLASS);
+    };
+    var hide = function (container) {
+      if (container.length !== 0) {
+        container.hide();
+      }
+      link.html(SHOW_LABEL);
+      link.removeClass(SHOW_CLASS);
+      link.addClass(HIDE_CLASS);
+    };
+    
     if (container.length !== 0) {
       if (link.html() === HIDE_LABEL) {
-        container.hide();
-        link.html(SHOW_LABEL);
+        hide(container);
       }
       else {
-        container.show();
-        link.html(HIDE_LABEL);
+        show(container);
       }
       return;
     }
@@ -63,14 +81,12 @@
       
       if (hidePolicy === 'frame') {
         frame.on('click', function () {
-          container.hide();
-          link.html(SHOW_LABEL);
+          hide(container);
         });
       }
       else { // hidePolicy === 'any'
         container.on('click', function () {
-          container.hide();
-          link.html(SHOW_LABEL);
+          hide(container);
         });
       }
       
@@ -78,7 +94,7 @@
       commit.append(container);
     });
     
-    link.html(HIDE_LABEL);
+    show(container);
   };
   
   var getUrl = function (commit) {
