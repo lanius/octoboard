@@ -306,6 +306,5 @@
   });
   
   // todo: long desc show diff
-  // todo: avoid probrem on key toggle shortcut repeatedly
   
 }(this));

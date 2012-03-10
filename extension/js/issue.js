@@ -60,7 +60,11 @@
       return;
     }
     
-    var loading =  $('<span> loading...</span>');
+    if (target.find('.loading').length !== 0) {
+      return; // now loading
+    }
+    
+    var loading =  $('<span class="loading"> loading...</span>');
     target.append(loading);
     
     $.get(url).then(function (data, status, xhr) {
