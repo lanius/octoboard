@@ -30,4 +30,8 @@
   }
   exports.gdbd.config = config;
   
+  
+  // fix hack
+  $('.alert').css('position', 'static');
+  
 }(this));
