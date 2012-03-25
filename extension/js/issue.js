@@ -2,12 +2,21 @@
   
   var SHOW_LABEL = 'show discussion';
   var HIDE_LABEL = 'hide discussion';
+  
+  var ELEMENT_ROOT = 'octbd-issue-root';
+  
   var SHOW_CLASS = 'gdbd-show';
   var HIDE_CLASS = 'gdbd-hide';
   var LABEL_CLASS = 'gdbd-popup-issue';
   var CONTAINER_CLASS = 'gdbd-issue-container'
   
   var hidePolicy = 'frame';
+  
+  
+  var elementRoot = $('<div>');
+  elementRoot.attr('id', ELEMENT_ROOT);
+  $(document.body).append(elementRoot);
+  
   
   var setToIssues = function (issues) {
     issues.each(function (idx, issue) {
@@ -240,7 +249,9 @@
       }
       
       loading.remove();
-      target.append(container);
+      $('#' + ELEMENT_ROOT).append(container);
+      container.css('top', target.offset().top + target.height());
+      // todo: fix to enable cache
     });
     
     show(container);

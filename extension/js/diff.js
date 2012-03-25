@@ -2,12 +2,21 @@
   
   var SHOW_LABEL = 'show diff';
   var HIDE_LABEL = 'hide diff';
+  
+  var ELEMENT_ROOT = 'octbd-diff-root';
+  
   var SHOW_CLASS = 'gdbd-show';
   var HIDE_CLASS = 'gdbd-hide';
   var LABEL_CLASS = 'gdbd-popup-diff';
   var CONTAINER_CLASS = 'gdbd-diff-container'
   
   var hidePolicy = 'frame';
+  
+  
+  var elementRoot = $('<div>');
+  elementRoot.attr('id', ELEMENT_ROOT);
+  $(document.body).append(elementRoot);
+  
   
   var setToPushes = function (pushes) {
     pushes.each(function (idx, push) {
@@ -96,7 +105,9 @@
       }
       
       loading.remove();
-      commit.append(container);
+      $('#' + ELEMENT_ROOT).append(container);
+      container.css('top', commit.offset().top + commit.height());
+      // todo: fix to enable cache
     });
     
     show(container);
