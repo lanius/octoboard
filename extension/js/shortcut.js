@@ -254,7 +254,12 @@
       diff.toggle(element);
     }
     else if (type === 'issue') {
-      issue.toggle(element);
+      if (element.hasClass('alert')) {
+        issue.toggle(element);
+      }
+      else {
+        issue.toggle(element.parentsUntil('.news').last());
+      }
     }
   };
   
@@ -330,7 +335,7 @@
     }
     if (content.length !== 1) {
       content = element;
-      element = content.parent().parent().parent().parent().parent();
+      element = content.parentsUntil('.news').last();
     }
     
     if (cursor.current) {
@@ -345,8 +350,6 @@
   };
   
   // todo: long desc show diff
-  // todo: need to fix some bug! trouble exists about content, maybe
-  // todo: need to fix some bug! large trouble about issue
   // todo: optionize
   
 }(this));
