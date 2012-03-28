@@ -330,9 +330,6 @@
   // set "show discussion"
   var currentIssueOpened = getAllIssueOpened();
   var currentIssueComment = getAllIssueComment();
-  if (currentIssueOpened.length === 0 && currentIssueComment.length === 0) {
-    return;
-  }
   setToIssues(currentIssueOpened);
   setToIssues(currentIssueComment);
   
