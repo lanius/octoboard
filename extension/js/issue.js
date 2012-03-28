@@ -18,6 +18,9 @@
   $(document.body).append(elementRoot);
   
   
+  var elementCache = {};
+  
+  
   var setToIssues = function (issues) {
     issues.each(function (idx, issue) {
       setToIssue($(issue));
@@ -43,28 +46,25 @@
     var target = getTarget(issue);
     
     var show = function (container) {
-      if (container.length !== 0) {
-        container.show();
-      }
+      container.show();
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
     };
     var hide = function (container) {
-      if (container.length !== 0) {
-        container.hide();
-      }
+      container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
     };
     
-    if (container.length !== 0) {
+    var cachedElement = elementCache[url];
+    if (cachedElement) {
       if (link.html() === HIDE_LABEL) {
-        hide(container);
+        hide(cachedElement);
       }
       else {
-        show(container);
+        show(cachedElement);
       }
       onToggled(issue);
       return;
@@ -249,13 +249,15 @@
       }
       
       loading.remove();
-      $('#' + ELEMENT_ROOT).append(container);
+      
+      elementRoot.append(container);
       container.css('top', target.offset().top + target.height());
-      // todo: fix to enable cache
+      elementCache[url] = container;
+      
+      show(container);
+      onToggled(issue);
     });
     
-    show(container);
-    onToggled(issue);
   };
   
   var getUrl = function (issue) {

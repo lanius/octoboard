@@ -18,6 +18,9 @@
   $(document.body).append(elementRoot);
   
   
+  var elementCache = {};
+  
+  
   var setToPushes = function (pushes) {
     pushes.each(function (idx, push) {
       setToPush($(push));
@@ -44,33 +47,29 @@
   };
   
   var toggle = function (commit) {
-    var container = commit.find('.' + CONTAINER_CLASS);
     var link = commit.find('.' + LABEL_CLASS);
     var url = getUrl(commit);
     
     var show = function (container) {
-      if (container.length !== 0) {
-        container.show();
-      }
+      container.show();
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
     };
     var hide = function (container) {
-      if (container.length !== 0) {
-        container.hide();
-      }
+      container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
     };
     
-    if (container.length !== 0) {
+    var cachedElement = elementCache[url];
+    if (cachedElement) {
       if (link.html() === HIDE_LABEL) {
-        hide(container);
+        hide(cachedElement);
       }
       else {
-        show(container);
+        show(cachedElement);
       }
       onToggled(commit);
       return;
@@ -105,13 +104,15 @@
       }
       
       loading.remove();
-      $('#' + ELEMENT_ROOT).append(container);
+      
+      elementRoot.append(container);
       container.css('top', commit.offset().top + commit.height());
-      // todo: fix to enable cache
+      elementCache[url] = container;
+      
+      show(container);
+      onToggled(commit);
     });
     
-    show(container);
-    onToggled(commit);
   };
   
   var getUrl = function (commit) {
