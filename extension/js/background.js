@@ -1,23 +1,7 @@
 (function (exports) {
   
   var getOption = function (key) {
-    var value = localStorage.getItem(key);
-    
-    // set default value
-    if (value === null) {
-      if (key === 'autoPaging') {
-        value = true;
-      }
-      else if (key === 'hidePolicy') {
-        value = 'frame';
-      }
-      else {
-        value = null;
-      }
-      setOption(key, value);
-    }
-    
-    return value;
+    return localStorage.getItem(key);
   };
   
   var setOption = function (key, value) {
