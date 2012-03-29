@@ -3,39 +3,46 @@
 <head>
     <meta charset="utf-8">
     <title>Options - Octoboard</title>
+    <link rel="stylesheet" href="../css/options.css">
 </head>
 <body>
 	<h1>Octoboard</h1>
 	<h2>Options</h2>
-
-	<div>
-		<label>Auto Paging</label>
-		<input id="auto-paging-checkbox" type="checkbox">
-		<span id="auto-paging-status"></span>
-	</div>
+	<div id="options">
+		
+		<h3>General</h3>
+		<div class="options-content">
+			<div>
+				<label class="general-label">Auto Paging</label>
+				<input id="auto-paging-checkbox" type="checkbox">
+				<span id="auto-paging-status"></span>
+			</div>
+			
+			<div>
+				<label class="general-label">Hide Policy</label>
+				<select id="hide-policy-select">
+					<option value="frame">Click Frame</option>
+					<option value="any">Click Any</option>
+				</select>
+			</div>
+		</div>
+		
+		<h3>Keyboard Shortcut</h3>
+		<div class="options-content">
+			<div>
+				<label class="keyboard-shortcut-label">Up</label>
+				<input id="keyboard-shortcut-up" type="input" class="keyboard-shortcut" />
+			</div>
+			<div>
+				<label class="keyboard-shortcut-label">Down</label>
+				<input id="keyboard-shortcut-down" type="input" class="keyboard-shortcut" />
+			</div>
+			<div>
+				<label class="keyboard-shortcut-label">Toggle</label>
+				<input id="keyboard-shortcut-toggle" type="input" class="keyboard-shortcut" />
+			</div>
+		</div>
 	
-	<div>
-		<label>Hide Policy</label>
-		<select id="hide-policy-select">
-			<option value="frame">Click Frame</option>
-			<option value="any">Click Any</option>
-		</select>
-	</div>
-	
-	<h2>Keyboard Shortcut</h2>
-	<div>
-		<div>
-			<label>Up</label>
-			<input id="keyboard-shortcut-up" type="input">
-		</div>
-		<div>
-			<label>Down</label>
-			<input id="keyboard-shortcut-down" type="input">
-		</div>
-		<div>
-			<label>Toggle</label>
-			<input id="keyboard-shortcut-toggle" type="input">
-		</div>
 	</div>
 	
 	<script src="../js/lib/jquery.js"></script>

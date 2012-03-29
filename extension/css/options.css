@@ -1,0 +1,34 @@
+body {
+	color: #D6E9F9;
+	background: #104770;
+	padding: 15px;
+	padding-top: 0;
+}
+
+h3 {
+	margin: 0;
+}
+
+#options {
+	background: #1D547F;
+	padding: 15px;
+	border-radius: 5px;
+}
+
+.options-content {
+	padding: 15px;
+}
+
+.general-label {
+	display: inline-block;
+	width: 90px;
+}
+
+.keyboard-shortcut {
+	width: 20px;
+}
+
+.keyboard-shortcut-label {
+	display: inline-block;
+	width: 50px;
+}
