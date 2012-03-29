@@ -1,7 +1,18 @@
 (function (exports) {
   
+  var defaultValues = {};
+  defaultValues['autoPaging'] = true;
+  defaultValues['hidePolicy'] = 'frame';
+  defaultValues['keyboardShortcutUp'] = 'k';
+  defaultValues['keyboardShortcutDown'] = 'j';
+  defaultValues['keyboardShortcutToggle'] = 't';;
+  
   var getOption = function (key) {
-    return localStorage.getItem(key);
+    var value = localStorage.getItem(key);
+    if (value === null) {
+      value = defaultValues[key];
+    }
+    return value;
   };
   
   var setOption = function (key, value) {

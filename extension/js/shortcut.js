@@ -7,6 +7,11 @@
   var SHOW_CLASS = 'gdbd-show';
   var HIDE_CLASS = 'gdbd-hide';
   
+  var keyboardShortcutUp = 'k';
+  var keyboardShortcutDown = 'j';
+  var keyboardShortcutToggle = 't';
+  
+  
   var Alert = function (element) {
     this.element = element;
   };
@@ -273,46 +278,67 @@
     }
     //keyToggle.element = element;
     //keyToggle.type = cursor.type;
-    keyToggle.bind = KeyboardJS.bind.key('t', function () {
+    keyToggle.bind = KeyboardJS.bind.key(keyboardShortcutToggle, function () {
       toggle(element, cursor.type);
     });
   };
   
   // next
-  KeyboardJS.bind.key('j', function () {
-    if (cursor.current) {
-      cursor.current.removeClass(CURSOR_CLASS);
-    }
-    cursor.next(function (element) {
-      if (!element) {
-        cursor.current.addClass(CURSOR_CLASS); // end of cursor
-        return;
+  var registerDownShortcut = function () {
+    KeyboardJS.bind.key(keyboardShortcutDown, function () {
+      if (cursor.current) {
+        cursor.current.removeClass(CURSOR_CLASS);
       }
-      element.addClass(CURSOR_CLASS);
-      window.scroll(0, element.offset().top - 50);
-      
-      registerToggleShortcut(element);
+      cursor.next(function (element) {
+        if (!element) {
+          cursor.current.addClass(CURSOR_CLASS); // end of cursor
+          return;
+        }
+        element.addClass(CURSOR_CLASS);
+        window.scroll(0, element.offset().top - 50);
+        
+        registerToggleShortcut(element);
+      });
     });
-  });
+  };
   
   // prev
-  KeyboardJS.bind.key('k', function () {
-    if (cursor.current) {
-      cursor.current.removeClass(CURSOR_CLASS);
-    }
-    cursor.prev(function (element) {
-      if (!element) {
-        if (cursor.current) {
-          cursor.current.addClass(CURSOR_CLASS); // end of cursor
-        }
-        return;
+  var registerUpShortcut = function () {
+    KeyboardJS.bind.key(keyboardShortcutUp, function () {
+      if (cursor.current) {
+        cursor.current.removeClass(CURSOR_CLASS);
       }
-      element.addClass(CURSOR_CLASS);
-      window.scroll(0, element.offset().top - 50);
-      
-      registerToggleShortcut(element);
+      cursor.prev(function (element) {
+        if (!element) {
+          if (cursor.current) {
+            cursor.current.addClass(CURSOR_CLASS); // end of cursor
+          }
+          return;
+        }
+        element.addClass(CURSOR_CLASS);
+        window.scroll(0, element.offset().top - 50);
+        
+        registerToggleShortcut(element);
+      });
     });
-  });
+  };
+  
+  // import
+  if (exports.gdbd.config) {
+    exports.gdbd.config.getOption('keyboardShortcutToggle', function (option) {
+      keyboardShortcutToggle = option;
+    });
+    
+    exports.gdbd.config.getOption('keyboardShortcutDown', function (option) {
+      keyboardShortcutDown = option;
+      registerDownShortcut();
+    });
+    
+    exports.gdbd.config.getOption('keyboardShortcutUp', function (option) {
+      keyboardShortcutUp = option;
+      registerUpShortcut();
+    });
+  }
   
   diff.onToggled = function (element) {
     if (cursor.current) {
@@ -350,6 +376,5 @@
   };
   
   // todo: long desc show diff
-  // todo: optionize
   
 }(this));

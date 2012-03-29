@@ -8,11 +8,6 @@
   
   // restore option
   config.getOption('autoPaging', function (option) {
-    // set default value
-    if (option === null) {
-      option = true;
-    }
-    
     if (option === true) {
       autoPagingCheckbox.attr('checked', 'checked');
       autoPagingStatus.text('ON');
@@ -40,11 +35,6 @@
   
   // restore option
   config.getOption('hidePolicy', function (option) {
-    // set default value
-    if (option === null) {
-      option = 'frame';
-    }
-    
     hidePolicySelect.val(option);
   });
   
@@ -61,27 +51,12 @@
   
   // restore option
   config.getOption('keyboardShortcutUp', function (option) {
-    // set default value
-    if (option === null) {
-      option = 'k';
-    }
-    
     keyboardShortcutUp.val(option);
   });
   config.getOption('keyboardShortcutDown', function (option) {
-    // set default value
-    if (option === null) {
-      option = 'j';
-    }
-    
     keyboardShortcutDown.val(option);
   });
   config.getOption('keyboardShortcutToggle', function (option) {
-    // set default value
-    if (option === null) {
-      option = 't';
-    }
-    
     keyboardShortcutToggle.val(option);
   });
   
