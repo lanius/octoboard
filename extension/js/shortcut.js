@@ -256,15 +256,17 @@
   
   var toggle = function (element, type) {
     if (type === 'push') {
+	  diff.toggleOffOthers(element);
+	  issue.toggleOffAll();
       diff.toggle(element);
     }
     else if (type === 'issue') {
-      if (element.hasClass('alert')) {
-        issue.toggle(element);
+      if (!element.hasClass('alert')) {
+        element = element.parentsUntil('.news').last();
       }
-      else {
-        issue.toggle(element.parentsUntil('.news').last());
-      }
+	  issue.toggleOffOthers(element);
+	  diff.toggleOffAll();
+	  issue.toggle(element);
     }
   };
   

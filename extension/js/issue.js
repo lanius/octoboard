@@ -371,6 +371,8 @@
   exports.gdbd.issue = {};
   exports.gdbd.issue.update = update;
   exports.gdbd.issue.toggle = toggle;
+  exports.gdbd.issue.toggleOffAll = toggleOffAll;
+  exports.gdbd.issue.toggleOffOthers = toggleOffOthers;
   
   // import
   if (exports.gdbd.config) {

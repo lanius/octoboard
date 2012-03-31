@@ -203,6 +203,8 @@
   exports.gdbd.diff = {};
   exports.gdbd.diff.update = update;
   exports.gdbd.diff.toggle = toggle;
+  exports.gdbd.diff.toggleOffAll = toggleOffAll;
+  exports.gdbd.diff.toggleOffOthers = toggleOffOthers;
   
   // import
   if (exports.gdbd.config) {
