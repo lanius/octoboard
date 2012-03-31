@@ -30,5 +30,6 @@ pip-log.txt
 *.log
 .project
 .pydevproject
+.zip
 
 .DS_Store
