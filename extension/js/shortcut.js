@@ -342,6 +342,18 @@
     });
   }
   
+  keyboardShortcutScrollUp = 'g';
+  keyboardShortcutScrollDown = 'f';
+  var scrollSpeed = 10;
+  KeyboardJS.bind.key(keyboardShortcutScrollUp, function () {
+	var body = $(document.body);
+	window.scroll(body.scrollLeft(), body.scrollTop() + scrollSpeed);
+  });
+  KeyboardJS.bind.key(keyboardShortcutScrollDown, function () {
+	var body = $(document.body);
+	window.scroll(body.scrollLeft(), body.scrollTop() - scrollSpeed);
+  });
+  
   diff.onToggled = function (element) {
     if (cursor.current) {
       if (element.hasClass(CURSOR_CLASS)) {
