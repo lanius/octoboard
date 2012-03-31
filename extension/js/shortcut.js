@@ -268,6 +268,7 @@
 	  diff.toggleOffAll();
 	  issue.toggle(element);
     }
+	jumpTo(element);
   };
   
   var registerToggleShortcut = function (element) {
@@ -297,7 +298,7 @@
           return;
         }
         element.addClass(CURSOR_CLASS);
-        window.scroll(0, element.offset().top - 50);
+        jumpTo(element);
         
         registerToggleShortcut(element);
       });
@@ -318,11 +319,15 @@
           return;
         }
         element.addClass(CURSOR_CLASS);
-        window.scroll(0, element.offset().top - 50);
+        jumpTo(element);
         
         registerToggleShortcut(element);
       });
     });
+  };
+  
+  var jumpTo = function (element) {
+    window.scroll(0, element.offset().top - 50);
   };
   
   // import
