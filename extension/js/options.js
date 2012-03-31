@@ -54,6 +54,9 @@
   var keyboardShortcutUp = $('#keyboard-shortcut-up');
   var keyboardShortcutDown = $('#keyboard-shortcut-down');
   var keyboardShortcutToggle = $('#keyboard-shortcut-toggle');
+  var keyboardShortcutScrollUp = $('#keyboard-shortcut-scroll-up');
+  var keyboardShortcutScrollDown = $('#keyboard-shortcut-scroll-down');
+  var scrollSpeed = $('#scroll-speed');
   
   // restore option
   config.getOption('keyboardShortcutUp', function (option) {
@@ -64,6 +67,15 @@
   });
   config.getOption('keyboardShortcutToggle', function (option) {
     keyboardShortcutToggle.val(option);
+  });
+  config.getOption('keyboardShortcutScrollUp', function (option) {
+    keyboardShortcutScrollUp.val(option);
+  });
+  config.getOption('keyboardShortcutScrollDown', function (option) {
+    keyboardShortcutScrollDown.val(option);
+  });
+  config.getOption('scrollSpeed', function (option) {
+    scrollSpeed.val(option);
   });
   
   // register event handler
@@ -77,6 +89,18 @@
   });
   keyboardShortcutToggle.on('keyup', function () {
     config.setOption('keyboardShortcutToggle', keyboardShortcutToggle.val());
+	optionChanged();
+  });
+  keyboardShortcutScrollUp.on('keyup', function () {
+    config.setOption('keyboardShortcutScrollUp', keyboardShortcutScrollUp.val());
+	optionChanged();
+  });
+  keyboardShortcutScrollDown.on('keyup', function () {
+    config.setOption('keyboardShortcutScrollDown', keyboardShortcutScrollDown.val());
+	optionChanged();
+  });
+  scrollSpeed.on('keyup', function () {
+    config.setOption('scrollSpeed', scrollSpeed.val());
 	optionChanged();
   });
   

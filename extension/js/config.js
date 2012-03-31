@@ -13,6 +13,9 @@
       else if (value === 'false') {
         value = false;
       }
+	  else if (isFinite(value)) {
+	    value = parseInt(value, 10);
+	  }
       
       callback(value);
     });

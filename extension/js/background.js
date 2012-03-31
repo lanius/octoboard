@@ -5,7 +5,10 @@
   defaultValues['hidePolicy'] = 'frame';
   defaultValues['keyboardShortcutUp'] = 'k';
   defaultValues['keyboardShortcutDown'] = 'j';
-  defaultValues['keyboardShortcutToggle'] = 't';;
+  defaultValues['keyboardShortcutToggle'] = 't';
+  defaultValues['keyboardShortcutScrollUp'] = 'f';
+  defaultValues['keyboardShortcutScrollDown'] = 'g';
+  defaultValues['scrollSpeed'] = 10;
   
   var getOption = function (key) {
     var value = localStorage.getItem(key);

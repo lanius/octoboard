@@ -10,6 +10,9 @@
   var keyboardShortcutUp = 'k';
   var keyboardShortcutDown = 'j';
   var keyboardShortcutToggle = 't';
+  var keyboardShortcutScrollUp = 'f';
+  var keyboardShortcutScrollDown = 'g';
+  var scrollSpeed = 10;
   
   
   var Alert = function (element) {
@@ -330,34 +333,49 @@
     window.scroll(0, element.offset().top - 50);
   };
   
+  var registerScrollUpShortcut = function () {
+    KeyboardJS.bind.key(keyboardShortcutScrollUp, function () {
+	  var body = $(document.body);
+	  window.scroll(body.scrollLeft(), body.scrollTop() - scrollSpeed);
+    });
+  };
+  
+  var registerScrollDownShortcut = function () {
+    KeyboardJS.bind.key(keyboardShortcutScrollDown, function () {
+	  var body = $(document.body);
+	  window.scroll(body.scrollLeft(), body.scrollTop() + scrollSpeed);
+    });
+  };
+  
   // import
   if (exports.gdbd.config) {
-    exports.gdbd.config.getOption('keyboardShortcutToggle', function (option) {
+    var config = exports.gdbd.config;
+    config.getOption('keyboardShortcutToggle', function (option) {
       keyboardShortcutToggle = option;
     });
     
-    exports.gdbd.config.getOption('keyboardShortcutDown', function (option) {
+    config.getOption('keyboardShortcutDown', function (option) {
       keyboardShortcutDown = option;
       registerDownShortcut();
     });
     
-    exports.gdbd.config.getOption('keyboardShortcutUp', function (option) {
+    config.getOption('keyboardShortcutUp', function (option) {
       keyboardShortcutUp = option;
       registerUpShortcut();
     });
+	
+	config.getOption('scrollSpeed', function (option) {
+      scrollSpeed = option;
+      config.getOption('keyboardShortcutScrollUp', function (option) {
+        keyboardShortcutScrollUp = option;
+        registerScrollUpShortcut();
+      });
+	  config.getOption('keyboardShortcutScrollDown', function (option) {
+        keyboardShortcutScrollDown = option;
+        registerScrollDownShortcut();
+      });
+    });
   }
-  
-  keyboardShortcutScrollUp = 'g';
-  keyboardShortcutScrollDown = 'f';
-  var scrollSpeed = 10;
-  KeyboardJS.bind.key(keyboardShortcutScrollUp, function () {
-	var body = $(document.body);
-	window.scroll(body.scrollLeft(), body.scrollTop() + scrollSpeed);
-  });
-  KeyboardJS.bind.key(keyboardShortcutScrollDown, function () {
-	var body = $(document.body);
-	window.scroll(body.scrollLeft(), body.scrollTop() - scrollSpeed);
-  });
   
   diff.onToggled = function (element) {
     if (cursor.current) {

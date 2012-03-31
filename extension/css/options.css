@@ -9,6 +9,10 @@ h3 {
 	margin: 0;
 }
 
+hr {
+	border-width: 0px;
+}
+
 #message {
 	color: #56F251;
 	font-weight: bold;
@@ -36,5 +40,5 @@ h3 {
 
 .keyboard-shortcut-label {
 	display: inline-block;
-	width: 50px;
+	width: 130px;
 }
