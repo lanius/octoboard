@@ -274,6 +274,19 @@
 	});
   };
   
+  var toggleOffOthers = function (issue) {
+    $('div.alert.issues_opened.' + OPENED_CLASS).each(function () {
+	  if (getUrl(issue) !== getUrl($(this))) {
+	    toggle($(this));
+	  }
+	});
+	$('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
+	  if (getUrl(issue) !== getUrl($(this))) {
+	    toggle($(this));
+	  }
+	});
+  };
+  
   var getUrl = function (issue) {
     return $(issue.find('.title a').get(1)).attr('href');
   };

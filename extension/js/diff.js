@@ -126,6 +126,14 @@
 	});
   };
   
+  var toggleOffOthers = function (commit) {
+    $('div.alert.push .' + OPENED_CLASS).each(function () {
+	  if (getUrl(commit) !== getUrl($(this))) {
+	    toggle($(this));
+	  }
+	});
+  };
+  
   var getUrl = function (commit) {
     return commit.find('code a').attr('href');
   };
