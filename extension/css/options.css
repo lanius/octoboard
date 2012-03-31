@@ -9,6 +9,12 @@ h3 {
 	margin: 0;
 }
 
+#message {
+	color: #56F251;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
 #options {
 	background: #1D547F;
 	padding: 15px;

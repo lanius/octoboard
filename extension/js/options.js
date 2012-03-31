@@ -2,6 +2,10 @@
   
   var config = gdbd.config;
   
+  var optionChanged = function () {
+    $('#message').text("Please reload GitHub page to reflect changed options.");
+  };
+  
   // Auto Paging
   var autoPagingCheckbox = $('#auto-paging-checkbox');
   var autoPagingStatus = $('#auto-paging-status');
@@ -27,6 +31,7 @@
       config.setOption('autoPaging', false);
       autoPagingStatus.text('OFF');
     }
+	optionChanged();
   });
   
   
@@ -41,6 +46,7 @@
   // register event handler
   hidePolicySelect.on('change', function () {
     config.setOption('hidePolicy', hidePolicySelect.val());
+	optionChanged();
   });
   
   
@@ -63,12 +69,15 @@
   // register event handler
   keyboardShortcutUp.on('keyup', function () {
     config.setOption('keyboardShortcutUp', keyboardShortcutUp.val());
+	optionChanged();
   });
   keyboardShortcutDown.on('keyup', function () {
     config.setOption('keyboardShortcutDown', keyboardShortcutDown.val());
+	optionChanged();
   });
   keyboardShortcutToggle.on('keyup', function () {
     config.setOption('keyboardShortcutToggle', keyboardShortcutToggle.val());
+	optionChanged();
   });
   
 }(this, jQuery));
