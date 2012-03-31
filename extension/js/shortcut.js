@@ -227,6 +227,13 @@
             callback(null); // end of alert
             return;
           }
+		  
+		  // FIXME: adhoc bug fix. content is null on specific condition.
+		  if(prevAlert.content === null) {
+            callback(null);
+            return;
+          }
+		  
           _this._currentAlert = prevAlert;
           _this._currentContentIndex = _this._currentAlert.content.length;
           _this.prev(callback);
