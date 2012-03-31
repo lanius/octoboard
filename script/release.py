@@ -15,7 +15,7 @@ zip_file = os.path.join(project_root, 'extension.zip')
 
 
 def bump_up(version):
-    print('bump up verion to {0}'.format(version))
+    print('bump up version to {0}...'.format(version))
 
     with open(manifest_file, 'r') as f:
         manifest = json.load(f)

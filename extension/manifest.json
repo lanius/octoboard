@@ -1,34 +1,36 @@
 {
-  "name": "Octoboard",
-  "version": "0.1.0",
-  
-  "description": "Octoboard makes it possible to you to open a diff view on the GitHub dashboard.",
-  "icons": {
-    "16": "img/icon16.png",
-    "48": "img/icon48.png",
-    "128": "img/icon128.png"
-  },
-  
-  "browser_action": {
-    "default_icon": "img/icon48.png"
-  },
-  
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
-      "js": 
-      [
+      "matches": [
+        "https://github.com/*"
+      ], 
+      "css": [
+        "css/diff.css", 
+        "css/issue.css", 
+        "css/shortcut.css"
+      ], 
+      "js": [
         "js/lib/jquery.js", 
         "js/lib/keyboard.js", 
         "js/config.js", 
         "js/diff.js", 
-        "js/issue.js",
-        "js/autopaging.js",
+        "js/issue.js", 
+        "js/autopaging.js", 
         "js/shortcut.js"
-      ],
-      "css": ["css/diff.css", "css/issue.css", "css/shortcut.css"]
+      ]
     }
-  ],
-  "options_page": "html/options.html",
-  "background_page": "html/background.html"
+  ], 
+  "name": "Octoboard", 
+  "icons": {
+    "128": "img/icon128.png", 
+    "48": "img/icon48.png", 
+    "16": "img/icon16.png"
+  }, 
+  "version": "0.1.0", 
+  "options_page": "html/options.html", 
+  "background_page": "html/background.html", 
+  "browser_action": {
+    "default_icon": "img/icon48.png"
+  }, 
+  "description": "Octoboard makes it possible to you to open a diff view on the GitHub dashboard."
 }
