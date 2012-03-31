@@ -8,7 +8,8 @@
   var SHOW_CLASS = 'gdbd-show';
   var HIDE_CLASS = 'gdbd-hide';
   var LABEL_CLASS = 'gdbd-popup-diff';
-  var CONTAINER_CLASS = 'gdbd-diff-container'
+  var CONTAINER_CLASS = 'gdbd-diff-container';
+  var OPENED_CLASS = 'octbd-diff-opened';
   
   var hidePolicy = 'frame';
   
@@ -55,12 +56,16 @@
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
+	  
+	  commit.addClass(OPENED_CLASS);
     };
     var hide = function (container) {
       container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
+	  
+	  commit.removeClass(OPENED_CLASS);
     };
     
     var cachedElement = elementCache[url];
@@ -113,6 +118,12 @@
       onToggled(commit);
     });
     
+  };
+  
+  var toggleOffAll = function () {
+    $('div.alert.push .' + OPENED_CLASS).each(function () {
+	  toggle($(this));
+	});
   };
   
   var getUrl = function (commit) {

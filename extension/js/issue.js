@@ -8,7 +8,8 @@
   var SHOW_CLASS = 'gdbd-show';
   var HIDE_CLASS = 'gdbd-hide';
   var LABEL_CLASS = 'gdbd-popup-issue';
-  var CONTAINER_CLASS = 'gdbd-issue-container'
+  var CONTAINER_CLASS = 'gdbd-issue-container';
+  var OPENED_CLASS = 'octbd-issue-opened';
   
   var hidePolicy = 'frame';
   
@@ -50,12 +51,16 @@
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
+	  
+	  issue.addClass(OPENED_CLASS);
     };
     var hide = function (container) {
       container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
+	  
+	  issue.removeClass(OPENED_CLASS);
     };
     
     var cachedElement = elementCache[url];
@@ -258,6 +263,15 @@
       onToggled(issue);
     });
     
+  };
+  
+  var toggleOffAll = function () {
+    $('div.alert.issues_opened.' + OPENED_CLASS).each(function () {
+	  toggle($(this));
+	});
+	$('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
+	  toggle($(this));
+	});
   };
   
   var getUrl = function (issue) {
