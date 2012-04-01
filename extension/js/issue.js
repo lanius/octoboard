@@ -123,11 +123,11 @@
           return;
         }
         
-        var formActionBar = $('.bubble .action-bar');
+        var formActionBar = $('div.bubble .action-bar');
         formActionBar.children().remove();
         formActionBar.append($(result.formActionBar));
         
-        var formActions = $('.form-actions').last();
+        var formActions = $('div.form-actions').last();
         formActions.children().remove();
         formActions.append($(result.formActions));
         
@@ -306,11 +306,11 @@
   };
   
   var getAllIssueComment = function () {
-    return $(".alert.issues_comment");
+    return $('div.alert.issues_comment');
   };
 
   var getPagingLink = function () {
-    return $(".pagination.ajax_paginate a");
+    return $('div.pagination.ajax_paginate a');
   };
 
   var diff = function(large, small) {

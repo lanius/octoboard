@@ -141,11 +141,11 @@
   };
   
   var getAllPushes = function () {
-    return $(".alert.push").children();
+    return $('div.alert.push').children();
   };
 
   var getPagingLink = function () {
-    return $(".pagination.ajax_paginate a");
+    return $('div.pagination.ajax_paginate a');
   };
 
   var diff = function(large, small) { // this does not specify "diff" of git!
