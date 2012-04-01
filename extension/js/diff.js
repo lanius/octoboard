@@ -48,6 +48,8 @@
   };
   
   var toggle = function (commit) {
+	onToggleStarted(commit);
+	
     var link = commit.find('.' + LABEL_CLASS);
     var url = getUrl(commit);
     
@@ -212,6 +214,11 @@
       hidePolicy = option;
     });
   }
+  
+  var onToggleStarted = function (commit) {
+    exports.gdbd.diff.onToggleStarted(commit);
+  };
+  
   var onToggled = function (commit) {
     exports.gdbd.diff.onToggled(commit);
   };

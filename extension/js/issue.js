@@ -41,6 +41,8 @@
   };
   
   var toggle = function (issue) {
+	onToggleStarted(issue);
+	
     var container = issue.find('.' + CONTAINER_CLASS);
     var link = issue.find('.' + LABEL_CLASS);
     var url = getUrl(issue);
@@ -380,6 +382,11 @@
       hidePolicy = option;
     });
   }
+  
+  var onToggleStarted = function (issue) {
+    exports.gdbd.issue.onToggleStarted(issue);
+  };
+  
   var onToggled = function (issue) {
     exports.gdbd.issue.onToggled(issue);
   };

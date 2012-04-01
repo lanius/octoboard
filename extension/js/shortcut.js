@@ -274,8 +274,6 @@
       if (!element.hasClass('alert')) {
         element = element.parentsUntil('.news').last();
       }
-	  issue.toggleOffOthers(element);
-	  diff.toggleOffAll();
 	  issue.toggle(element);
     }
 	jumpTo(element);
@@ -383,6 +381,16 @@
       });
     });
   }
+  
+  diff.onToggleStarted = function (element) {
+    diff.toggleOffOthers(element);
+	issue.toggleOffAll();
+  };
+  
+  issue.onToggleStarted = function (element) {
+    issue.toggleOffOthers(element);
+	diff.toggleOffAll();
+  };
   
   diff.onToggled = function (element) {
     if (cursor.current) {
