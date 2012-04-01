@@ -41,8 +41,8 @@
   };
   
   var toggle = function (issue) {
-	onToggleStarted(issue);
-	
+    onToggleStarted(issue);
+    
     var container = issue.find('.' + CONTAINER_CLASS);
     var link = issue.find('.' + LABEL_CLASS);
     var url = getUrl(issue);
@@ -53,16 +53,16 @@
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
-	  
-	  issue.addClass(OPENED_CLASS);
+      
+      issue.addClass(OPENED_CLASS);
     };
     var hide = function (container) {
       container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
-	  
-	  issue.removeClass(OPENED_CLASS);
+      
+      issue.removeClass(OPENED_CLASS);
     };
     
     var cachedElement = elementCache[url];
@@ -269,24 +269,24 @@
   
   var toggleOffAll = function () {
     $('div.alert.issues_opened.' + OPENED_CLASS).each(function () {
-	  toggle($(this));
-	});
-	$('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
-	  toggle($(this));
-	});
+      toggle($(this));
+    });
+    $('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
+      toggle($(this));
+    });
   };
   
   var toggleOffOthers = function (issue) {
     $('div.alert.issues_opened.' + OPENED_CLASS).each(function () {
-	  if (getUrl(issue) !== getUrl($(this))) {
-	    toggle($(this));
-	  }
-	});
-	$('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
-	  if (getUrl(issue) !== getUrl($(this))) {
-	    toggle($(this));
-	  }
-	});
+      if (getUrl(issue) !== getUrl($(this))) {
+        toggle($(this));
+      }
+    });
+    $('div.alert.issues_comment.' + OPENED_CLASS).each(function () {
+      if (getUrl(issue) !== getUrl($(this))) {
+        toggle($(this));
+      }
+    });
   };
   
   var getUrl = function (issue) {

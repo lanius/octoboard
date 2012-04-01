@@ -227,13 +227,13 @@
             callback(null); // end of alert
             return;
           }
-		  
-		  // FIXME: adhoc bug fix. content is null on specific condition.
-		  if(prevAlert.content === null) {
+          
+          // FIXME: adhoc bug fix. content is null on specific condition.
+          if(prevAlert.content === null) {
             callback(null);
             return;
           }
-		  
+          
           _this._currentAlert = prevAlert;
           _this._currentContentIndex = _this._currentAlert.content.length;
           _this.prev(callback);
@@ -266,17 +266,17 @@
   
   var toggle = function (element, type) {
     if (type === 'push') {
-	  diff.toggleOffOthers(element);
-	  issue.toggleOffAll();
+      diff.toggleOffOthers(element);
+      issue.toggleOffAll();
       diff.toggle(element);
     }
     else if (type === 'issue') {
       if (!element.hasClass('alert')) {
         element = element.parentsUntil('.news').last();
       }
-	  issue.toggle(element);
+      issue.toggle(element);
     }
-	jumpTo(element);
+    jumpTo(element);
   };
   
   var registerToggleShortcut = function (element) {
@@ -340,15 +340,15 @@
   
   var registerScrollUpShortcut = function () {
     KeyboardJS.bind.key(keyboardShortcutScrollUp, function () {
-	  var body = $(document.body);
-	  window.scroll(body.scrollLeft(), body.scrollTop() - scrollSpeed);
+      var body = $(document.body);
+      window.scroll(body.scrollLeft(), body.scrollTop() - scrollSpeed);
     });
   };
   
   var registerScrollDownShortcut = function () {
     KeyboardJS.bind.key(keyboardShortcutScrollDown, function () {
-	  var body = $(document.body);
-	  window.scroll(body.scrollLeft(), body.scrollTop() + scrollSpeed);
+      var body = $(document.body);
+      window.scroll(body.scrollLeft(), body.scrollTop() + scrollSpeed);
     });
   };
   
@@ -368,14 +368,14 @@
       keyboardShortcutUp = option;
       registerUpShortcut();
     });
-	
-	config.getOption('scrollSpeed', function (option) {
+    
+    config.getOption('scrollSpeed', function (option) {
       scrollSpeed = option;
       config.getOption('keyboardShortcutScrollUp', function (option) {
         keyboardShortcutScrollUp = option;
         registerScrollUpShortcut();
       });
-	  config.getOption('keyboardShortcutScrollDown', function (option) {
+      config.getOption('keyboardShortcutScrollDown', function (option) {
         keyboardShortcutScrollDown = option;
         registerScrollDownShortcut();
       });
@@ -384,12 +384,12 @@
   
   diff.onToggleStarted = function (element) {
     diff.toggleOffOthers(element);
-	issue.toggleOffAll();
+    issue.toggleOffAll();
   };
   
   issue.onToggleStarted = function (element) {
     issue.toggleOffOthers(element);
-	diff.toggleOffAll();
+    diff.toggleOffAll();
   };
   
   diff.onToggled = function (element) {

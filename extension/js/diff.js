@@ -48,8 +48,8 @@
   };
   
   var toggle = function (commit) {
-	onToggleStarted(commit);
-	
+    onToggleStarted(commit);
+    
     var link = commit.find('.' + LABEL_CLASS);
     var url = getUrl(commit);
     
@@ -58,16 +58,16 @@
       link.html(HIDE_LABEL);
       link.removeClass(HIDE_CLASS);
       link.addClass(SHOW_CLASS);
-	  
-	  commit.addClass(OPENED_CLASS);
+      
+      commit.addClass(OPENED_CLASS);
     };
     var hide = function (container) {
       container.hide();
       link.html(SHOW_LABEL);
       link.removeClass(SHOW_CLASS);
       link.addClass(HIDE_CLASS);
-	  
-	  commit.removeClass(OPENED_CLASS);
+      
+      commit.removeClass(OPENED_CLASS);
     };
     
     var cachedElement = elementCache[url];
@@ -124,16 +124,16 @@
   
   var toggleOffAll = function () {
     $('div.alert.push .' + OPENED_CLASS).each(function () {
-	  toggle($(this));
-	});
+      toggle($(this));
+    });
   };
   
   var toggleOffOthers = function (commit) {
     $('div.alert.push .' + OPENED_CLASS).each(function () {
-	  if (getUrl(commit) !== getUrl($(this))) {
-	    toggle($(this));
-	  }
-	});
+      if (getUrl(commit) !== getUrl($(this))) {
+        toggle($(this));
+      }
+    });
   };
   
   var getUrl = function (commit) {

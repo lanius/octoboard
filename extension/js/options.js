@@ -31,7 +31,7 @@
       config.setOption('autoPaging', false);
       autoPagingStatus.text('OFF');
     }
-	optionChanged();
+    optionChanged();
   });
   
   
@@ -46,7 +46,7 @@
   // register event handler
   hidePolicySelect.on('change', function () {
     config.setOption('hidePolicy', hidePolicySelect.val());
-	optionChanged();
+    optionChanged();
   });
   
   
@@ -81,27 +81,27 @@
   // register event handler
   keyboardShortcutUp.on('keyup', function () {
     config.setOption('keyboardShortcutUp', keyboardShortcutUp.val());
-	optionChanged();
+    optionChanged();
   });
   keyboardShortcutDown.on('keyup', function () {
     config.setOption('keyboardShortcutDown', keyboardShortcutDown.val());
-	optionChanged();
+    optionChanged();
   });
   keyboardShortcutToggle.on('keyup', function () {
     config.setOption('keyboardShortcutToggle', keyboardShortcutToggle.val());
-	optionChanged();
+    optionChanged();
   });
   keyboardShortcutScrollUp.on('keyup', function () {
     config.setOption('keyboardShortcutScrollUp', keyboardShortcutScrollUp.val());
-	optionChanged();
+    optionChanged();
   });
   keyboardShortcutScrollDown.on('keyup', function () {
     config.setOption('keyboardShortcutScrollDown', keyboardShortcutScrollDown.val());
-	optionChanged();
+    optionChanged();
   });
   scrollSpeed.on('keyup', function () {
     config.setOption('scrollSpeed', scrollSpeed.val());
-	optionChanged();
+    optionChanged();
   });
   
 }(this, jQuery));
