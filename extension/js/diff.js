@@ -189,9 +189,6 @@
   
   // set "show diff"
   var currentPushes = getAllPushes();
-  if (currentPushes.length === 0) {
-    return;
-  }
   setToPushes(currentPushes);
   
   // set event listener for paging
