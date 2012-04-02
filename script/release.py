@@ -33,7 +33,7 @@ def archive():
 
     zip_archive = zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED)
     for root, dirs, files in os.walk(extension_root):
-	for name in files:
+        for name in files:
             zip_archive.write(os.path.join(root, name))
     zip_archive.close()
 
